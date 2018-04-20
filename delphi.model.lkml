@@ -1,4 +1,5 @@
 connection: "snowflake"
+label: "Sales and Catering"
 
 # include all the views
 include: "*.view"
@@ -13,7 +14,15 @@ datagroup: delphi_default_datagroup {
 
 persist_with: delphi_default_datagroup
 
-explore: booking {}
+explore: performancedata {
+
+  join: booking {
+    view_label: "Booking"
+    relationship: many_to_one
+    sql_on: ${booking.bookingid} = ${performancedata.bookingid} ;;
+
+  }
+}
 
 # - explore: account
 
