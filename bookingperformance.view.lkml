@@ -1,6 +1,6 @@
 view: performancedata {
   derived_table: {
-    sql: select *  from table(FUNCGETPERFORMANCEDATA(to_date('2017-03-01'), to_date('2017-03-31'),to_date('2017-01-01'), to_date('2017-12-31'), to_number('-8973450536730455136') )) cc;
+    sql: select *  from table(FUNCGETPERFORMANCEDATA(to_date('2017-03-01'), to_date('2017-03-31'),to_date('2017-01-01'), to_date('2017-12-31'), -8973450536730455136 )) cc;
       ;;
   }
 
