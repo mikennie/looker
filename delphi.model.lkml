@@ -14,15 +14,52 @@ datagroup: delphi_default_datagroup {
 
 persist_with: delphi_default_datagroup
 
-explore: performancedata {
+explore: performance_data {
 
   join: booking {
     view_label: "Booking"
     relationship: many_to_one
-    sql_on: ${booking.bookingid} = ${performancedata.bookingid} ;;
+    sql_on: ${booking.booking_id} = ${performance_data.booking_id} ;;
 
   }
+
+  always_filter: {
+
+    filters: {
+      field: performance_data.beginning_activity_date
+      value: "2018-03-31"
+    }
+
+    filters: {
+      field: performance_data.ending_activity_date
+      value: "2018-03-01"
+    }
+
+
+    filters: {
+      field: performance_data.beginning_consumption_date
+      value: "2018-01-01"
+    }
+
+    filters: {
+      field: performance_data.ending_consumption_date
+      value: "2018-12-31"
+    }
+
 }
+}
+# explore: test {
+#   always_filter: {
+#     filters: {
+#       field: test.beginning_consumption_date
+#       value: "2017-03-01"
+#     }
+#     filters: {
+#       field: test.ending_consumption_date
+#       value: "2017-03-01"
+#     }
+#   }
+# }
 
 # - explore: account
 

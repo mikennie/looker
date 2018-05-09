@@ -1,13 +1,45 @@
-view: performancedata {
-  derived_table: {
-    sql: select *  from table(FUNCGETPERFORMANCEDATA(to_date('2017-03-01'), to_date('2017-03-31'),to_date('2017-01-01'), to_date('2017-12-31'), -8973450536730455136 )) cc
-      ;;
+# view: performance_data {
+#   derived_table: {
+#     sql: select *  from table(FUNCGETPERFORMANCEDATA(to_date('2017-03-01'), to_date('2017-03-31'),to_date('2017-01-01'), to_date('2017-12-31'), -8973450536730455136 )) cc
+#       ;;
+#   }
+
+view:  performance_data {
+  # You can specify the table name if it's different from the view name:
+  sql_table_name: table(FUNCGETPERFORMANCEDATA(to_date({% parameter beginning_activity_date %}), to_date({% parameter ending_activity_date %}),to_date({% parameter beginning_consumption_date %}), to_date({% parameter ending_consumption_date %}), -8973450536730455136 ));;
+
+#   measure: count {
+#     type: count
+# #     drill_fields: [detail*]
+#   }
+
+  parameter: beginning_activity_date {
+    #first date in table function
+    type: date
   }
+
+  parameter: ending_activity_date {
+    #second date in table function
+    type: date
+  }
+
+  parameter: beginning_consumption_date {
+    #third date in table function
+    type: date
+  }
+
+  parameter: ending_consumption_date {
+    #fourth date in table function
+    type: date
+  }
+
 
   measure: count {
     type: count
     drill_fields: [detail*]
   }
+
+
 
   dimension: id {
     primary_key: yes
@@ -15,57 +47,62 @@ view: performancedata {
     sql: ${TABLE}.ID ;;
   }
 
-  dimension: bookingid {
+  dimension: booking_id {
     type: number
-    sql: ${TABLE}.BOOKINGID ;;
+    sql: ${TABLE}.BOOKINGID;;
   }
 
-  dimension: locationid {
+#   dimension: booking_id_ex {
+#     type: number
+#     sql: case when ${booking_id} is null then "XX" else ${booking_id} End;;
+#   }
+
+  dimension: location_id {
     type: number
     sql: ${TABLE}.LOCATIONID ;;
   }
 
-  dimension: endsnapshotdate {
+  dimension: end_snapshot_date {
     type: date
     sql: ${TABLE}.ENDSNAPSHOTDATE ;;
   }
 
-  dimension: beginsnapshotdate {
+  dimension: begin_snapshot_date {
     type: date
     sql: ${TABLE}.BEGINSNAPSHOTDATE ;;
   }
 
-  dimension: patterndate {
+  dimension: pattern_date {
     type: date
     sql: ${TABLE}.PATTERNDATE ;;
   }
 
-  dimension: endbookingstatus {
+  dimension: end_booking_status {
     type: number
     sql: ${TABLE}.ENDBOOKINGSTATUS ;;
   }
 
-  dimension: beginbookingstatus {
+  dimension: begin_booking_status {
     type: number
     sql: ${TABLE}.BEGINBOOKINGSTATUS ;;
   }
 
-  dimension: endispickupcomplete {
+  dimension: end_is_pickup_complete {
     type: string
     sql: ${TABLE}.ENDISPICKUPCOMPLETE ;;
   }
 
-  dimension: beginispickupcomplete {
+  dimension: begin_is_pickup_complete {
     type: string
     sql: ${TABLE}.BEGINISPICKUPCOMPLETE ;;
   }
 
-  dimension: blockednewdefiniteguestrooms {
-    type: number
+  measure: blocked_new_definite_guestrooms {
+    type: sum
     sql: ${TABLE}.BLOCKEDNEWDEFINITEGUESTROOMS ;;
   }
 
-  measure: blockednewdefiniteguestroomrevenue {
+  measure: blocked_new_definite_guestroom_revenue {
     type: sum
     sql: ${TABLE}.BLOCKEDNEWDEFINITEGUESTROOMREVENUE ;;
   }
@@ -747,11 +784,11 @@ view: performancedata {
 #
   set: detail {
     fields: [
-      bookingid,
-      locationid,
-      endsnapshotdate,
-      beginsnapshotdate,
-      patterndate
+      booking_id,
+      location_id,
+      end_snapshot_date,
+      begin_snapshot_date,
+      pattern_date
 #       endbookingstatus,
 #       beginbookingstatus,
 #       endispickupcomplete,

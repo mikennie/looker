@@ -1,7 +1,7 @@
 view: booking {
   sql_table_name: PUBLIC.BOOKING ;;
 
-  dimension: bookingid {
+  dimension: booking_id {
     primary_key: yes
     type: string
     sql: ${TABLE}.DATA:"BookingId" ;;
