@@ -41,15 +41,22 @@ view:  performance_data {
 
 
 
-  dimension: id {
-    primary_key: yes
-    type: number
-    sql: ${TABLE}.ID ;;
-  }
-
+#   dimension: id {
+#     primary_key: yes
+#     type: number
+#     sql: ${TABLE}.ID ;;
+#   }
+#
   dimension: booking_id {
+    hidden: yes
     type: number
     sql: ${TABLE}.BOOKINGID;;
+  }
+
+  dimension: market_segment_id {
+    hidden: no
+    type: number
+    sql: ${TABLE}.MARKETSEGMENTID;;
   }
 
 #   dimension: booking_id_ex {
@@ -59,6 +66,7 @@ view:  performance_data {
 
   dimension: location_id {
     type: number
+    hidden: yes
     sql: ${TABLE}.LOCATIONID ;;
   }
 

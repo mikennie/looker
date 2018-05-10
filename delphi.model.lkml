@@ -23,16 +23,32 @@ explore: performance_data {
 
   }
 
+  join: location {
+    view_label: "Location"
+    relationship: many_to_one
+    sql_on: ${location.location_id} = ${performance_data.location_id} ;;
+
+  }
+
+  join: marketsegment {
+    view_label: "MarketSegment"
+    relationship: many_to_one
+    sql_on: ${marketsegment.marketsegment_id} = ${performance_data.market_segment_id} ;;
+
+  }
+
+
+
   always_filter: {
 
     filters: {
       field: performance_data.beginning_activity_date
-      value: "2018-03-31"
+      value: "2018-03-01"
     }
 
     filters: {
       field: performance_data.ending_activity_date
-      value: "2018-03-01"
+      value: "2018-03-31"
     }
 
 

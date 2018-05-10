@@ -11,8 +11,10 @@ view: booking {
     type: string
     sql: ${TABLE}.DATA:"PostAs" ;;
   }
-  measure: count {
-    type: count
-    drill_fields: []
-  }
+
+
+#   measure: count {
+#     type: count
+#     drill_fields: []
+#   }
 }
