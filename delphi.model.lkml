@@ -33,7 +33,14 @@ explore: performance_data {
   join: marketsegment {
     view_label: "MarketSegment"
     relationship: many_to_one
-    sql_on: ${marketsegment.marketsegment_id} = ${performance_data.market_segment_id} ;;
+    sql_on: ${marketsegment.market_segment_id} = ${performance_data.market_segment_id} ;;
+
+  }
+
+  join: account {
+    view_label: "Account"
+    relationship: many_to_one
+    sql_on: ${account.account_id} = ${performance_data.account_id} ;;
 
   }
 

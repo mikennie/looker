@@ -1,17 +1,7 @@
-# view: performance_data {
-#   derived_table: {
-#     sql: select *  from table(FUNCGETPERFORMANCEDATA(to_date('2017-03-01'), to_date('2017-03-31'),to_date('2017-01-01'), to_date('2017-12-31'), -8973450536730455136 )) cc
-#       ;;
-#   }
-
 view:  performance_data {
   # You can specify the table name if it's different from the view name:
-  sql_table_name: table(FUNCGETPERFORMANCEDATA(to_date({% parameter beginning_activity_date %}), to_date({% parameter ending_activity_date %}),to_date({% parameter beginning_consumption_date %}), to_date({% parameter ending_consumption_date %}), -8973450536730455136 ));;
-
-#   measure: count {
-#     type: count
-# #     drill_fields: [detail*]
-#   }
+#   sql_table_name: table(FUNCGETPERFORMANCEDATA(to_date({% parameter beginning_activity_date %}), to_date({% parameter ending_activity_date %}),to_date({% parameter beginning_consumption_date %}), to_date({% parameter ending_consumption_date %}), -8973450536730455136 ));;
+  sql_table_name: table(FUNCGETPERFORMANCEDATA2(to_date({% parameter beginning_activity_date %}), to_date({% parameter ending_activity_date %}),to_date({% parameter beginning_consumption_date %}), to_date({% parameter ending_consumption_date %}) ));;
 
   parameter: beginning_activity_date {
     #first date in table function
@@ -33,28 +23,26 @@ view:  performance_data {
     type: date
   }
 
-
-  measure: count {
-    type: count
-    drill_fields: [detail*]
-  }
-
-
-
-#   dimension: id {
-#     primary_key: yes
-#     type: number
-#     sql: ${TABLE}.ID ;;
-#   }
-#
   dimension: booking_id {
     hidden: yes
     type: number
     sql: ${TABLE}.BOOKINGID;;
   }
 
+#   dimension: Pickup_Roomnights_Total {
+#     hidden: yes
+#     type: number
+#     sql: ${TABLE}.PickupRoomnightsTotal;;
+#   }
+#
+#   dimension: Blocked_Roomnights_Total {
+#     hidden: yes
+#     type: number
+#     sql: ${TABLE}.BlockedRoomnightsTotal;;
+#   }
+
   dimension: market_segment_id {
-    hidden: no
+    hidden: yes
     type: number
     sql: ${TABLE}.MARKETSEGMENTID;;
   }
@@ -68,6 +56,12 @@ view:  performance_data {
     type: number
     hidden: yes
     sql: ${TABLE}.LOCATIONID ;;
+  }
+
+  dimension: account_id {
+    type: number
+    hidden: yes
+    sql: ${TABLE}.ACCOUNTID ;;
   }
 
   dimension: end_snapshot_date {
@@ -110,10 +104,104 @@ view:  performance_data {
     sql: ${TABLE}.BLOCKEDNEWDEFINITEGUESTROOMS ;;
   }
 
-  measure: blocked_new_definite_guestroom_revenue {
+  measure: blocked_new_definite_guestroom_rev {
     type: sum
     sql: ${TABLE}.BLOCKEDNEWDEFINITEGUESTROOMREVENUE ;;
   }
+
+  measure: blocked_net_definite_guestrooms {
+    type: sum
+    sql: ${TABLE}.BLOCKEDNETDEFINITEGUESTROOMS ;;
+  }
+
+  measure: blocked_net_definite_guestroom_rev {
+    type: sum
+    sql: ${TABLE}.BLOCKEDNETDEFINITEGUESTROOMREVENUE ;;
+  }
+
+  measure: blocked_reval_guestrooms {
+    type: sum
+    sql: ${TABLE}.BLOCKEDREVALUATIONGUESTROOMS ;;
+  }
+
+  measure: blocked_reval_guestroom_rev {
+    type: sum
+    sql: ${TABLE}.BLOCKEDREVALUATIONGUESTROOMREVENUE ;;
+  }
+
+  measure: blocked_slippage_guestrooms {
+    type: sum
+    sql: ${TABLE}.BLOCKEDSLIPPAGEGUESTROOMS ;;
+  }
+
+  measure: blocked_slippage_guestroom_rev {
+    type: sum
+    sql: ${TABLE}.BLOCKEDSLIPPAGEGUESTROOMREVENUE ;;
+  }
+
+  measure: blocked_lostdowngrade_guestrooms {
+    type: sum
+    sql: ${TABLE}.BLOCKEDLOSTDOWNGRADEDGUESTROOMS ;;
+  }
+
+  measure: blocked_lostdowngrade_guestroom_rev {
+    type: sum
+    sql: ${TABLE}.BLOCKEDLOSTDOWNGRADEDGUESTROOMREVENUE ;;
+  }
+
+  measure: blocked_definite_guestrooms_OTB {
+    type: sum
+    sql: ${TABLE}.BLOCKEDDEFINITEGUESTROOMONTHEBOOKS ;;
+  }
+
+  measure: blocked_definite_guestroom_rev_OTB {
+    type: sum
+    value_format: "$#.00;($#.00)"
+    sql: ${TABLE}.BLOCKEDDEFINITEGUESTROOMREVENUEONTHEBOOKS ;;
+  }
+
+  measure: blocked_tentative_guestrooms_OTB {
+    type: sum
+    sql: ${TABLE}.BLOCKEDTENTATIVEGUESTROOMONTHEBOOKS ;;
+  }
+
+  measure: blocked_tentative_guestroom_rev_OTB {
+    type: sum
+    sql: ${TABLE}.BLOCKEDTENTATIVEGUESTROOMREVENUEONTHEBOOKS ;;
+  }
+
+  measure: blocked_prospect_guestrooms_OTB {
+    type: sum
+    sql: ${TABLE}.BLOCKEDPROSPECTGUESTROOMONTHEBOOKS ;;
+  }
+
+  measure: blocked_prospect_guestroom_rev_OTB {
+    type: sum
+    sql: ${TABLE}.BLOCKEDPROSPECTGUESTROOMREVENUEONTHEBOOKS ;;
+  }
+
+#   measure: count {
+#     type: count
+#     drill_fields: [detail*]
+#   }
+
+#   measure: new_definite_guestrooms {
+#     type: number
+#     sql: case when ${booking_id} is null then "XX" else ${booking_id} End;;
+#   }
+
+#   measure: new_definite_guestrooms {
+#     type: sum
+#       sql: CASE WHEN ${end_booking_status} = 3
+#              AND COALESCE(${begin_booking_status}, 0) <> 3
+#           THEN  CASE WHEN COALESCE(${end_is_pickup_complete}, 0) = 1
+#                 THEN ${Pickup_Roomnights_Total}
+#                 ELSE ${Blocked_Roomnights_Total}
+#              END
+#           ELSE 0
+#        END ;;
+#
+# }
 
 #   dimension: blockednetdefiniteguestrooms {
 #     type: number
