@@ -66,18 +66,30 @@ view:  performance_data {
 
   dimension: end_snapshot_date {
     type: date
+    convert_tz: no
+    hidden: yes
     sql: ${TABLE}.ENDSNAPSHOTDATE ;;
   }
 
   dimension: begin_snapshot_date {
     type: date
+    convert_tz: no
+    hidden: yes
     sql: ${TABLE}.BEGINSNAPSHOTDATE ;;
   }
 
-  dimension: pattern_date {
-    type: date
+#   dimension: pattern_date {
+#     type: date
+#     sql: ${TABLE}.PATTERNDATE ;;
+#   }
+
+  dimension_group: pattern {
+    type: time
+    convert_tz: no
+    timeframes: [date, week, month,year]
     sql: ${TABLE}.PATTERNDATE ;;
   }
+
 
   dimension: end_booking_status {
     type: number
@@ -106,6 +118,7 @@ view:  performance_data {
 
   measure: blocked_new_definite_guestroom_rev {
     type: sum
+    value_format: "$#.00;($#.00)"
     sql: ${TABLE}.BLOCKEDNEWDEFINITEGUESTROOMREVENUE ;;
   }
 
@@ -116,6 +129,7 @@ view:  performance_data {
 
   measure: blocked_net_definite_guestroom_rev {
     type: sum
+    value_format: "$#.00;($#.00)"
     sql: ${TABLE}.BLOCKEDNETDEFINITEGUESTROOMREVENUE ;;
   }
 
@@ -126,6 +140,7 @@ view:  performance_data {
 
   measure: blocked_reval_guestroom_rev {
     type: sum
+    value_format: "$#.00;($#.00)"
     sql: ${TABLE}.BLOCKEDREVALUATIONGUESTROOMREVENUE ;;
   }
 
@@ -136,6 +151,7 @@ view:  performance_data {
 
   measure: blocked_slippage_guestroom_rev {
     type: sum
+    value_format: "$#.00;($#.00)"
     sql: ${TABLE}.BLOCKEDSLIPPAGEGUESTROOMREVENUE ;;
   }
 
@@ -146,6 +162,7 @@ view:  performance_data {
 
   measure: blocked_lostdowngrade_guestroom_rev {
     type: sum
+    value_format: "$#.00;($#.00)"
     sql: ${TABLE}.BLOCKEDLOSTDOWNGRADEDGUESTROOMREVENUE ;;
   }
 
@@ -167,6 +184,7 @@ view:  performance_data {
 
   measure: blocked_tentative_guestroom_rev_OTB {
     type: sum
+    value_format: "$#.00;($#.00)"
     sql: ${TABLE}.BLOCKEDTENTATIVEGUESTROOMREVENUEONTHEBOOKS ;;
   }
 
@@ -177,6 +195,7 @@ view:  performance_data {
 
   measure: blocked_prospect_guestroom_rev_OTB {
     type: sum
+    value_format: "$#.00;($#.00)"
     sql: ${TABLE}.BLOCKEDPROSPECTGUESTROOMREVENUEONTHEBOOKS ;;
   }
 
@@ -884,7 +903,7 @@ view:  performance_data {
       location_id,
       end_snapshot_date,
       begin_snapshot_date,
-      pattern_date
+#       pattern_date
 #       endbookingstatus,
 #       beginbookingstatus,
 #       endispickupcomplete,

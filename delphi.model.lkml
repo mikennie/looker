@@ -69,6 +69,11 @@ explore: performance_data {
       value: "2018-12-31"
     }
 
+    filters: {
+      field: location.property_name
+      value: "Campion Knit Suites"
+    }
+
 }
 }
 # explore: test {
