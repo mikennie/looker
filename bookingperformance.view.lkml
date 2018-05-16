@@ -118,7 +118,7 @@ view:  performance_data {
 
   measure: blocked_new_definite_guestroom_rev {
     type: sum
-    value_format: "$#.00;($#.00)"
+    value_format_name: usd
     sql: ${TABLE}.BLOCKEDNEWDEFINITEGUESTROOMREVENUE ;;
   }
 

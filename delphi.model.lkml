@@ -15,6 +15,10 @@ datagroup: delphi_default_datagroup {
 persist_with: delphi_default_datagroup
 
 explore: performance_data {
+#   access_filter: {
+#     field: location.property_name
+#     user_attribute: property_name
+#   }
 
   join: booking {
     view_label: "Booking"
