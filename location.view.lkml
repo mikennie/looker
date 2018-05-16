@@ -9,12 +9,20 @@ view: location {
       sql: ${TABLE}.DATA:"LocationId" ;;
     }
 
-    dimension: name {
-      type: string
-      label: "Property Name"
-      description: "This is the Propery Name"
-      sql: ${TABLE}.DATA:"Name" ;;
-    }
+#     dimension: name {
+#       type: string
+#       label: "Property Name"
+#       description: "This is the Propery Name"
+#       sql: ${TABLE}.DATA:"Name" ;;
+#     }
+
+# Did this so that I could remove quotes from the attribute when it is returned.  check snowflake query.
+  dimension: property_name {
+    type: string
+    label: "Property Name"
+    description: "This is the Propery Name"
+    sql: ${TABLE}.PROPERTYNAME ;;
+  }
 
 #     measure: count {
 #       type: count
